@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 1 Prologue</title>
+  <style>
+    :root {
+      --bg-color: #181818;
+      --panel-color: rgba(20, 20, 30, 0.95);
+      --text-color: #e3e3e3;
+      --accent: #a18f7c;
+      --shadow: rgba(0,0,0,0.65);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #282828 0%, #121212 75%);
+      color: var(--text-color);
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #game-root {
+      width: 840px;
+      height: 480px;
+      position: relative;
+      background: #141414;
+      border: 4px solid #2c2c2c;
+      box-shadow: 0 0 40px rgba(0,0,0,0.55);
+      overflow: hidden;
+    }
+
+    .scene-layer {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .scene-layer.visible {
+      opacity: 1;
+    }
+
+    #classroom {
+      background: linear-gradient(180deg, #2e2e3a 0%, #1f1f27 60%, #15151c 100%);
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: repeat(8, 1fr);
+    }
+
+    .desk {
+      width: 80%;
+      height: 60%;
+      background: #403d42;
+      border: 2px solid #252124;
+      border-radius: 6px;
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.35);
+    }
+
+    .desk-left { grid-column: 3 / 5; grid-row: 4 / 6; justify-self: center; align-self: center; }
+    .desk-right { grid-column: 7 / 9; grid-row: 4 / 6; justify-self: center; align-self: center; }
+
+    .sprite {
+      width: 56px;
+      height: 80px;
+      image-rendering: pixelated;
+      position: absolute;
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      background: linear-gradient(180deg, #b9908c 0%, #8e6d6f 100%);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 12px 24px rgba(0,0,0,0.25);
+    }
+
+    #nene-sprite { left: 210px; top: 242px; }
+    #aoi-sprite { left: 378px; top: 242px; }
+    #player-sprite { left: 182px; top: 362px; }
+
+    #door { position: absolute; width: 120px; height: 220px; right: 48px; top: 140px; border: 4px solid #26262e; background: linear-gradient(180deg, #1d1d24 0%, #0e0e12 100%); border-radius: 12px; box-shadow: inset 0 0 16px rgba(0,0,0,0.5); }
+    #door::after { content: ''; position: absolute; width: 8px; height: 14px; background: #9b9b9b; right: 16px; top: 120px; border-radius: 4px; }
+
+    #ui-overlay {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 56px);
+      max-width: 760px;
+      background: var(--panel-color);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 16px;
+      display: none;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+    }
+
+    #dialogue-speaker {
+      font-size: 14px;
+      color: #d7c7af;
+      margin-bottom: 8px;
+    }
+
+    #dialogue-text {
+      font-size: 18px;
+      line-height: 1.5;
+      min-height: 52px;
+    }
+
+    #day-card {
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 8, 8, 1);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      opacity: 1;
+      transition: opacity 0.6s ease;
+      z-index: 20;
+    }
+
+    #day-card.hidden { opacity: 0; pointer-events: none; }
+
+    #day-card h1 {
+      font-size: 36px;
+      color: #f8f2df;
+      margin: 0;
+      letter-spacing: 0.18em;
+    }
+
+    #day-card p {
+      margin-top: 16px;
+      color: #a89c88;
+      font-size: 18px;
+    }
+
+    #hint {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      color: #8c8c8c;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div id="game-root">
+    <div id="classroom" class="scene-layer"></div>
+    <div id="door"></div>
+    <div id="nene-sprite" class="sprite"></div>
+    <div id="aoi-sprite" class="sprite"></div>
+    <div id="player-sprite" class="sprite"></div>
+
+    <div id="day-card">
+      <div>
+        <h1>DAY 1</h1>
+        <p>THE GIRLS' ROOM RUMOR</p>
+      </div>
+    </div>
+
+    <div id="ui-overlay">
+      <div id="dialogue-speaker"></div>
+      <div id="dialogue-text"></div>
+    </div>
+
+    <div id="hint" class="hidden">Press ENTER to advance dialogue. Use arrow keys to move after the cutscene.</div>
+  </div>
+
+  <script>
+    // Basic game state variables
+    const currentDay = 1;
+    let playerCanMove = false;
+    let dialogueIndex = 0;
+
+    const dialogueLines = [
+      { speaker: 'Aoi', text: 'Nene, did you hear? They say Hanako-san of the Toilet grants wishes in the 3rd-floor girls\' bathroom.' },
+      { speaker: 'Nene', text: 'The rumor is so creepy... but also... if it is true, I should try it.' },
+      { speaker: 'Aoi', text: 'Be careful. The school spirits are not like ordinary ghosts.' },
+      { speaker: 'Nene', text: 'I won\'t back down. I\'m going to head there after class.' }
+    ];
+
+    const dayCard = document.getElementById('day-card');
+    const classroom = document.getElementById('classroom');
+    const uiOverlay = document.getElementById('ui-overlay');
+    const speakerEl = document.getElementById('dialogue-speaker');
+    const textEl = document.getElementById('dialogue-text');
+    const hint = document.getElementById('hint');
+    const player = document.getElementById('player-sprite');
+
+    const playerSpeed = 160; // pixels per second
+    const keys = { ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false };
+
+    function fadeInScene() {
+      classroom.classList.add('visible');
+    }
+
+    function fadeOutDayCard() {
+      dayCard.classList.add('hidden');
+    }
+
+    function startDialogue() {
+      uiOverlay.style.display = 'block';
+      hint.classList.remove('hidden');
+      showNextDialogueLine();
+    }
+
+    function showNextDialogueLine() {
+      if (dialogueIndex >= dialogueLines.length) {
+        endDialogue();
+        return;
+      }
+
+      const line = dialogueLines[dialogueIndex];
+      speakerEl.textContent = line.speaker;
+      textEl.textContent = line.text;
+      dialogueIndex += 1;
+    }
+
+    function endDialogue() {
+      uiOverlay.style.display = 'none';
+      hint.textContent = 'Use arrow keys to move Nene toward the hallway door.';
+      playerCanMove = true;
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function updatePlayerPosition(delta) {
+      if (!playerCanMove) return;
+
+      let dx = 0;
+      let dy = 0;
+      if (keys.ArrowRight) dx += 1;
+      if (keys.ArrowLeft) dx -= 1;
+      if (keys.ArrowDown) dy += 1;
+      if (keys.ArrowUp) dy -= 1;
+
+      if (dx === 0 && dy === 0) return;
+
+      const length = Math.sqrt(dx * dx + dy * dy);
+      dx /= length;
+      dy /= length;
+
+      const left = parseFloat(player.style.left);
+      const top = parseFloat(player.style.top);
+      const nextLeft = clamp(left + dx * playerSpeed * delta, 0, 840 - player.offsetWidth);
+      const nextTop = clamp(top + dy * playerSpeed * delta, 0, 480 - player.offsetHeight);
+
+      player.style.left = `${nextLeft}px`;
+      player.style.top = `${nextTop}px`;
+    }
+
+    function gameLoop(timestamp) {
+      if (!gameLoop.lastTime) gameLoop.lastTime = timestamp;
+      const delta = (timestamp - gameLoop.lastTime) / 1000;
+      gameLoop.lastTime = timestamp;
+      updatePlayerPosition(delta);
+      requestAnimationFrame(gameLoop);
+    }
+
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' && uiOverlay.style.display === 'block') {
+        showNextDialogueLine();
+        event.preventDefault();
+        return;
+      }
+
+      if (event.key in keys) {
+        keys[event.key] = true;
+      }
+    });
+
+    window.addEventListener('keyup', (event) => {
+      if (event.key in keys) {
+        keys[event.key] = false;
+      }
+    });
+
+    window.addEventListener('load', () => {
+      // Start the prologue sequence.
+      setTimeout(() => {
+        fadeOutDayCard();
+        fadeInScene();
+      }, 3000);
+
+      setTimeout(() => {
+        startDialogue();
+      }, 3800);
+
+      requestAnimationFrame(gameLoop);
+    });
+  </script>
+</body>
+</html>
