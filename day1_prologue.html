@@ -51,41 +51,157 @@
     }
 
     #classroom {
-      background: linear-gradient(180deg, #2e2e3a 0%, #1f1f27 60%, #15151c 100%);
+      position: relative;
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       grid-template-rows: repeat(8, 1fr);
+      background: #1d212a;
+      overflow: hidden;
+    }
+
+    #classroom::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    #classroom::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(180deg, transparent 0%, transparent 45%, rgba(255,255,255,0.05) 45%, rgba(255,255,255,0.05) 46%, transparent 46%, transparent 55%, rgba(255,255,255,0.08) 55%, rgba(255,255,255,0.08) 56%, transparent 56%),
+        linear-gradient(90deg, transparent 0%, transparent 33%, rgba(255,255,255,0.04) 33%, rgba(255,255,255,0.04) 34%, transparent 34%);
+      background-size: 100% 80px, 60px 100%;
+      opacity: 0.5;
+      pointer-events: none;
     }
 
     .desk {
       width: 80%;
       height: 60%;
-      background: #403d42;
-      border: 2px solid #252124;
-      border-radius: 6px;
-      box-shadow: inset 0 0 8px rgba(0,0,0,0.35);
+      background: #474d60;
+      border: 2px solid #1f2229;
+      border-radius: 0;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.08), inset 0 0 8px rgba(0,0,0,0.25);
     }
 
     .desk-left { grid-column: 3 / 5; grid-row: 4 / 6; justify-self: center; align-self: center; }
     .desk-right { grid-column: 7 / 9; grid-row: 4 / 6; justify-self: center; align-self: center; }
 
     .sprite {
+      --skin: #f0c6b0;
+      --hair: #6d4f4f;
+      --top: #7c5e74;
+      --pants: #2f3546;
+      --shoe: #1f1e24;
       width: 56px;
       height: 80px;
       image-rendering: pixelated;
       position: absolute;
-      border: 2px solid rgba(255,255,255,0.08);
-      border-radius: 8px;
-      background: linear-gradient(180deg, #b9908c 0%, #8e6d6f 100%);
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 12px 24px rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: transparent;
+      overflow: visible;
     }
 
-    #nene-sprite { left: 210px; top: 242px; }
-    #aoi-sprite { left: 378px; top: 242px; }
-    #player-sprite { left: 182px; top: 362px; }
+    .sprite::before,
+    .sprite::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      image-rendering: pixelated;
+      background: var(--hair);
+    }
 
-    #door { position: absolute; width: 120px; height: 220px; right: 48px; top: 140px; border: 4px solid #26262e; background: linear-gradient(180deg, #1d1d24 0%, #0e0e12 100%); border-radius: 12px; box-shadow: inset 0 0 16px rgba(0,0,0,0.5); }
-    #door::after { content: ''; position: absolute; width: 8px; height: 14px; background: #9b9b9b; right: 16px; top: 120px; border-radius: 4px; }
+    .sprite::before {
+      left: 0;
+      top: 0;
+      background: var(--hair);
+      box-shadow:
+        8px 0 var(--hair), 16px 0 var(--hair), 24px 0 var(--hair), 32px 0 var(--hair), 40px 0 var(--hair), 48px 0 var(--hair),
+        0 8px var(--hair), 8px 8px var(--skin), 16px 8px var(--skin), 24px 8px var(--skin), 32px 8px var(--skin), 40px 8px var(--skin), 48px 8px var(--hair),
+        0 16px var(--hair), 8px 16px var(--skin), 16px 16px #000, 24px 16px var(--skin), 32px 16px #000, 40px 16px var(--skin), 48px 16px var(--hair),
+        0 24px var(--hair), 8px 24px var(--skin), 16px 24px var(--skin), 24px 24px var(--skin), 32px 24px var(--skin), 40px 24px var(--skin), 48px 24px var(--hair),
+        0 32px var(--top), 8px 32px var(--top), 16px 32px var(--top), 24px 32px var(--top), 32px 32px var(--top), 40px 32px var(--top), 48px 32px var(--top);
+    }
+
+    .sprite::after {
+      left: 0;
+      top: 40px;
+      background: var(--top);
+      box-shadow:
+        8px 0 var(--top), 16px 0 var(--top), 24px 0 var(--top), 32px 0 var(--top), 40px 0 var(--top), 48px 0 var(--top),
+        0 8px var(--top), 8px 8px var(--top), 16px 8px var(--top), 24px 8px var(--top), 32px 8px var(--top), 40px 8px var(--top), 48px 8px var(--top),
+        0 16px var(--pants), 8px 16px var(--pants), 16px 16px var(--pants), 24px 16px var(--pants), 32px 16px var(--pants), 40px 16px var(--pants), 48px 16px var(--pants),
+        0 24px var(--pants), 8px 24px var(--pants), 16px 24px var(--pants), 24px 24px var(--pants), 32px 24px var(--pants), 40px 24px var(--pants), 48px 24px var(--pants),
+        8px 32px var(--shoe), 16px 32px var(--shoe), 24px 32px var(--shoe), 32px 32px var(--shoe), 40px 32px var(--shoe), 48px 32px var(--shoe);
+    }
+
+    #nene-sprite { --hair: #a15f78; --top: #8f6c8c; --pants: #2c2f45; left: 210px; top: 242px; }
+    #aoi-sprite { --hair: #3f6a8e; --top: #5c8b76; --pants: #283243; left: 378px; top: 242px; }
+    #player-sprite { --hair: #6b4f31; --top: #947766; --pants: #34353d; left: 182px; top: 362px; }
+
+    .desk-backdrop {
+      position: absolute;
+      left: 48px;
+      right: 48px;
+      top: 48px;
+      bottom: 120px;
+      background: linear-gradient(180deg, #262a33 0%, #1b1f26 100%);
+      border: 2px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+      z-index: 0;
+    }
+
+    .desk-backdrop::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 20%;
+      height: 2px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .desk-backdrop::after {
+      content: '';
+      position: absolute;
+      left: 18%;
+      right: 18%;
+      top: 34%;
+      height: 2px;
+      background: rgba(255,255,255,0.06);
+    }
+
+    #door {
+      position: absolute;
+      width: 120px;
+      height: 220px;
+      right: 48px;
+      top: 140px;
+      border: 4px solid #26262e;
+      background: linear-gradient(180deg, #292e36 0%, #181c22 100%);
+      border-radius: 4px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), inset 0 0 16px rgba(0,0,0,0.5);
+    }
+
+    #door::after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 14px;
+      background: #9b9b9b;
+      right: 16px;
+      top: 120px;
+      border-radius: 4px;
+    }
 
     #ui-overlay {
       position: absolute;
@@ -155,7 +271,11 @@
 </head>
 <body>
   <div id="game-root">
-    <div id="classroom" class="scene-layer"></div>
+    <div id="classroom" class="scene-layer">
+      <div class="desk-backdrop"></div>
+      <div class="desk desk-left"></div>
+      <div class="desk desk-right"></div>
+    </div>
     <div id="door"></div>
     <div id="nene-sprite" class="sprite"></div>
     <div id="aoi-sprite" class="sprite"></div>
@@ -236,6 +356,14 @@
       return Math.min(Math.max(value, min), max);
     }
 
+    function getPlayerPosition() {
+      const computedStyle = window.getComputedStyle(player);
+      return {
+        left: parseFloat(player.style.left || computedStyle.left) || 0,
+        top: parseFloat(player.style.top || computedStyle.top) || 0,
+      };
+    }
+
     function updatePlayerPosition(delta) {
       if (!playerCanMove) return;
 
@@ -252,8 +380,7 @@
       dx /= length;
       dy /= length;
 
-      const left = parseFloat(player.style.left);
-      const top = parseFloat(player.style.top);
+      const { left, top } = getPlayerPosition();
       const nextLeft = clamp(left + dx * playerSpeed * delta, 0, 840 - player.offsetWidth);
       const nextTop = clamp(top + dy * playerSpeed * delta, 0, 480 - player.offsetHeight);
 
