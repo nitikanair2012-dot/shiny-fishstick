@@ -318,6 +318,18 @@
       overflow: visible;
     }
 
+    .sprite-image {
+      width: 220px;
+      height: 368px;
+      image-rendering: pixelated;
+      position: absolute;
+      background-repeat: no-repeat;
+      background-position: center bottom;
+      background-size: contain;
+      border: 1px solid rgba(255,255,255,0.08);
+      background-image: url('nene/nene-stand.jpeg');
+    }
+
     .sprite::before,
     .sprite::after {
       content: '';
@@ -352,7 +364,7 @@
         8px 32px var(--shoe), 16px 32px var(--shoe), 24px 32px var(--shoe), 32px 32px var(--shoe), 40px 32px var(--shoe), 48px 32px var(--shoe);
     }
 
-    #nene-sprite { --hair: #a15f78; --top: #8f6c8c; --pants: #2c2f45; left: 210px; top: 242px; }
+    #nene-sprite { left: 210px; top: 230px; }
     #aoi-sprite { --hair: #3f6a8e; --top: #5c8b76; --pants: #283243; left: 378px; top: 242px; }
     #player-sprite { --hair: #6b4f31; --top: #947766; --pants: #34353d; left: 182px; top: 362px; }
 
@@ -668,7 +680,7 @@
       <div id="toilet"></div>
     </div>
     <div id="door"></div>
-    <div id="nene-sprite" class="sprite"></div>
+    <div id="nene-sprite" class="sprite-image"></div>
     <div id="aoi-sprite" class="sprite"></div>
     <div id="player-sprite" class="sprite"></div>
 
@@ -724,12 +736,23 @@
     const textEl = document.getElementById('dialogue-text');
     const hint = document.getElementById('hint');
     const player = document.getElementById('player-sprite');
+    const neneSprite = document.getElementById('nene-sprite');
     const doorEl = document.getElementById('door');
     let doorReached = false;
     let currentScene = 'classroom';
 
     const playerSpeed = 160; // pixels per second
     const keys = { ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false };
+    const neneStates = {
+      stand: 'nene/nene-stand.jpeg',
+      walk1: 'nene/nene-walk1.jpeg',
+      walk2: 'nene/nene-walk2.jpeg',
+      awww: 'nene/nene_awww.jpeg',
+      shocked: 'nene/nene_shocked.jpeg'
+    };
+    let neneState = '';
+    let walkFrame = 0;
+    let walkTimer = 0;
 
     function fadeInScene() {
       classroom.classList.add('visible');
@@ -794,6 +817,7 @@
       currentScene = 'day2';
       playerCanMove = false;
       doorEl.style.display = 'none';
+      setNeneState('awww');
       hint.textContent = 'Press ENTER to continue.';
     }
 
@@ -805,11 +829,36 @@
       player.style.left = '140px';
       player.style.top = '330px';
       playerCanMove = true;
+      setNeneState('stand');
       hint.textContent = 'Use arrow keys to explore the hallway.';
     }
 
     function clamp(value, min, max) {
       return Math.min(Math.max(value, min), max);
+    }
+
+    function setNeneState(state) {
+      if (neneState === state) return;
+      neneState = state;
+      neneSprite.style.backgroundImage = `url('${neneStates[state]}')`;
+    }
+
+    function updateNeneState(delta) {
+      if (doorReached || currentScene !== 'classroom') return;
+
+      const moving = keys.ArrowUp || keys.ArrowDown || keys.ArrowLeft || keys.ArrowRight;
+      if (!playerCanMove || !moving) {
+        setNeneState('stand');
+        walkTimer = 0;
+        return;
+      }
+
+      walkTimer += delta;
+      if (walkTimer >= 0.2) {
+        walkTimer -= 0.2;
+        walkFrame = (walkFrame + 1) % 2;
+        setNeneState(walkFrame === 0 ? 'walk1' : 'walk2');
+      }
     }
 
     function getPlayerPosition() {
@@ -860,6 +909,7 @@
       if (!gameLoop.lastTime) gameLoop.lastTime = timestamp;
       const delta = (timestamp - gameLoop.lastTime) / 1000;
       gameLoop.lastTime = timestamp;
+      updateNeneState(delta);
       updatePlayerPosition(delta);
       checkDoorCollision();
       requestAnimationFrame(gameLoop);
@@ -900,6 +950,7 @@
       // Ensure the player starts with a valid position.
       player.style.left = '182px';
       player.style.top = '362px';
+      setNeneState('stand');
 
       // Start the prologue sequence.
       setTimeout(() => {
