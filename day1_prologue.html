@@ -58,7 +58,7 @@
       background-color: #243043;
       background-image:
         linear-gradient(180deg, #243043 0%, #1a212d 60%, #0f1319 100%),
-        url('backgrounds/CLASSROOM.jpeg');
+        url('./backgrounds/CLASSROOM.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -92,7 +92,7 @@
       background-color: #11161d;
       background-image:
         linear-gradient(180deg, #11161d 0%, #0c1015 55%, #07090c 100%),
-        url('backgrounds/HALLWAY.jpeg');
+        url('./backgrounds/HALLWAY.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -758,20 +758,18 @@
     const keys = { ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false };
     const backgroundCandidates = {
       classroom: [
-        'backgrounds/CLASSROOM.jpeg',
-     
+        './backgrounds/CLASSROOM.jpeg',
       ],
       hallway: [
-        'backgrounds/HALLWAY.jpeg',
-        
+        './backgrounds/HALLWAY.jpeg',
       ]
     };
     const neneStates = {
-      stand: 'nene/nene-stand.jpeg',
-      walk1: 'nene/nene-walk1.jpeg',
-      walk2: 'nene/nene-walk2.jpeg',
-      awww: 'nene/nene_awww.jpeg',
-      shocked: 'nene/nene_shocked.jpeg'
+      stand: './nene/nene-stand.jpeg',
+      walk1: './nene/nene-walk1.jpeg',
+      walk2: './nene/nene-walk2.jpeg',
+      awww: './nene/nene_awww.jpeg',
+      shocked: './nene/nene_shocked.jpeg'
     };
     let neneState = '';
     let walkFrame = 0;
