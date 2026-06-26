@@ -55,7 +55,7 @@
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       grid-template-rows: repeat(8, 1fr);
-      background: linear-gradient(180deg, #2b323c 0%, #252b34 40%, #1f232a 100%);
+      background: linear-gradient(180deg, #243043 0%, #1a212d 60%, #0f1319 100%);
       overflow: hidden;
     }
 
@@ -64,10 +64,10 @@
       position: absolute;
       inset: 0;
       background-image:
-        repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0 8px, transparent 8px 24px),
-        repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 8px, transparent 8px 24px);
-      background-size: 32px 32px;
-      opacity: 0.45;
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.3;
       pointer-events: none;
     }
 
@@ -75,67 +75,229 @@
       content: '';
       position: absolute;
       inset: 0;
-      background-image:
-        linear-gradient(180deg, transparent 0%, transparent 44%, rgba(255,255,255,0.06) 44%, rgba(255,255,255,0.06) 46%, transparent 46%, transparent 54%, rgba(255,255,255,0.08) 54%, rgba(255,255,255,0.08) 55%, transparent 55%),
-        linear-gradient(90deg, transparent 0%, transparent 16%, rgba(255,255,255,0.04) 16%, rgba(255,255,255,0.04) 17%, transparent 17%);
-      background-size: 100% 80px, 24px 100%;
+      background: linear-gradient(180deg, transparent 0%, transparent 42%, rgba(255,255,255,0.05) 42%, rgba(255,255,255,0.05) 44%, transparent 44%, transparent 54%, rgba(255,255,255,0.06) 54%, rgba(255,255,255,0.06) 55%, transparent 55%);
       opacity: 0.4;
       pointer-events: none;
+    }
+
+    #hallway {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #11161d 0%, #0c1015 55%, #07090c 100%);
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    #hallway::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 220px;
+      height: 160px;
+      background: linear-gradient(180deg, #181f29 0%, #11161d 100%);
+      border-top: 3px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 16px 0 rgba(255,255,255,0.02);
+    }
+
+    #hallway::after {
+      content: '';
+      position: absolute;
+      left: 80px;
+      right: 80px;
+      top: 36px;
+      height: 110px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.03) 0%, transparent 12%, transparent 88%, rgba(255,255,255,0.03) 100%);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      pointer-events: none;
+    }
+
+    .hallway-wall {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      top: 26px;
+      height: 170px;
+      background: linear-gradient(180deg, #1c2430 0%, #141a23 100%);
+      border: 2px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+      z-index: 1;
+    }
+
+    .hallway-wall::before {
+      content: '';
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      top: 16px;
+      height: 12px;
+      background: #121820;
+      box-shadow: 0 10px 0 #121820, 0 20px 0 #121820;
+    }
+
+    #stall-door {
+      position: absolute;
+      right: 160px;
+      bottom: 88px;
+      width: 100px;
+      height: 170px;
+      background: linear-gradient(180deg, #2d323d 0%, #1d222b 100%);
+      border: 2px solid #191f27;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), 0 10px 20px rgba(0,0,0,0.35);
+      z-index: 2;
+    }
+
+    #stall-door::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #b0b5bb;
+      border-radius: 2px;
+      right: 14px;
+      top: 70px;
+      box-shadow: 0 0 0 2px rgba(0,0,0,0.12);
+    }
+
+    #toilet {
+      position: absolute;
+      right: 250px;
+      bottom: 92px;
+      width: 60px;
+      height: 46px;
+      background: #c2c8cf;
+      border: 2px solid #8c949e;
+      border-radius: 10px 10px 6px 6px;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.14);
+      z-index: 2;
+    }
+
+    #toilet::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      top: -20px;
+      height: 22px;
+      background: #b8bec6;
+      border: 2px solid #8c949e;
+      border-radius: 10px 10px 0 0;
     }
 
     .wall-panel {
       position: absolute;
       left: 24px;
       right: 24px;
-      top: 20px;
-      height: 76px;
-      background: linear-gradient(90deg, #2e343f 0%, #242a34 100%);
+      top: 18px;
+      height: 82px;
+      background: linear-gradient(90deg, #313744 0%, #222834 100%);
       border: 2px solid rgba(255,255,255,0.08);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), 0 10px 24px rgba(0,0,0,0.28);
       z-index: 0;
     }
 
     .wall-panel::before {
       content: '';
       position: absolute;
-      left: 12px;
-      right: 12px;
+      left: 14px;
+      right: 14px;
       top: 16px;
       height: 8px;
       background: #28303a;
-      box-shadow: 0 12px 0 #28303a;
+      box-shadow: 0 14px 0 #28303a, 0 28px 0 #28303a;
     }
 
     .chalkboard {
       position: absolute;
-      left: 88px;
+      left: 98px;
       top: 36px;
-      width: 232px;
+      width: 240px;
       height: 44px;
-      background: #2a4133;
-      border: 2px solid #1f2b24;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+      background: #2f4b39;
+      border: 2px solid #1d2a24;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08), 0 6px 14px rgba(0,0,0,0.25);
       z-index: 1;
     }
 
     .chalkboard::after {
       content: '';
       position: absolute;
-      left: 14px;
-      top: 12px;
+      left: 16px;
+      top: 10px;
       width: 8px;
       height: 8px;
-      background: #b5c6b4;
-      box-shadow: 16px 0 #b5c6b4, 32px 0 #b5c6b4, 0 12px #b5c6b4, 16px 12px #b5c6b4;
+      background: #c4d1bc;
+      box-shadow: 16px 0 #c4d1bc, 32px 0 #c4d1bc, 0 12px #c4d1bc, 16px 12px #c4d1bc;
+    }
+
+    .window-pane {
+      position: absolute;
+      top: 34px;
+      width: 96px;
+      height: 56px;
+      background: linear-gradient(180deg, #516175 0%, #2f3947 100%);
+      border: 2px solid rgba(255,255,255,0.1);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+      z-index: 1;
+    }
+
+    .window-pane::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 2px solid rgba(255,255,255,0.12);
+      box-shadow: inset 0 0 0 2px rgba(0,0,0,0.2);
+    }
+
+    .window-left { left: 372px; }
+    .window-right { right: 90px; }
+
+    .floor-strip {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 102px;
+      background: linear-gradient(180deg, #1a1f27 0%, #10141a 100%);
+      border-top: 3px solid rgba(255,255,255,0.06);
+      box-shadow: inset 0 2px 0 rgba(255,255,255,0.04);
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.06) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 2px, transparent 2px);
+      background-size: 24px 24px;
     }
 
     .desk {
       width: 80%;
       height: 60%;
-      background: #474d60;
+      background: linear-gradient(180deg, #4f5668 0%, #3f4453 100%);
       border: 2px solid #1f2229;
       border-radius: 0;
-      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.08), inset 0 0 8px rgba(0,0,0,0.25);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.08), inset 0 0 8px rgba(0,0,0,0.25), 0 8px 16px rgba(0,0,0,0.25);
+      position: relative;
+      z-index: 2;
+    }
+
+    .desk::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      top: -10px;
+      height: 10px;
+      background: #303540;
+      box-shadow: 0 2px 0 rgba(255,255,255,0.08);
+    }
+
+    .desk::after {
+      content: '';
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: -10px;
+      height: 10px;
+      background: #2c313b;
     }
 
     .desk-left { grid-column: 3 / 5; grid-row: 4 / 6; justify-self: center; align-self: center; }
@@ -200,9 +362,9 @@
       right: 48px;
       top: 48px;
       bottom: 120px;
-      background: linear-gradient(180deg, #2a2f39 0%, #1f232b 100%);
+      background: linear-gradient(180deg, #232834 0%, #171b21 100%);
       border: 2px solid rgba(255,255,255,0.08);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), inset 0 0 40px rgba(0,0,0,0.35);
       z-index: 0;
       background-image:
         linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
@@ -235,11 +397,20 @@
       width: 120px;
       height: 220px;
       right: 48px;
-      top: 140px;
-      border: 4px solid #26262e;
-      background: linear-gradient(180deg, #292e36 0%, #181c22 100%);
+      top: 132px;
+      border: 4px solid #2a2b33;
+      background: linear-gradient(180deg, #31353f 0%, #171920 100%);
       border-radius: 4px;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), inset 0 0 16px rgba(0,0,0,0.5);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), inset 0 0 20px rgba(0,0,0,0.45), 0 0 20px rgba(0,0,0,0.28);
+      z-index: 3;
+    }
+
+    #door::before {
+      content: '';
+      position: absolute;
+      inset: 12px;
+      border: 2px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 0 0 2px rgba(0,0,0,0.24);
     }
 
     #door::after {
@@ -247,10 +418,104 @@
       position: absolute;
       width: 8px;
       height: 14px;
-      background: #9b9b9b;
+      background: #b8babf;
       right: 16px;
-      top: 120px;
-      border-radius: 4px;
+      top: 110px;
+      border-radius: 2px;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.18);
+    }
+
+    #day2-screen {
+      position: absolute;
+      inset: 0;
+      background: rgba(12, 16, 22, 0.96);
+      display: grid;
+      place-items: center;
+      z-index: 30;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+
+    #day2-screen.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .day2-panel {
+      width: 660px;
+      padding: 28px;
+      border: 2px solid #3b4c5e;
+      background: linear-gradient(180deg, #13202c 0%, #0b1116 100%);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 18px 40px rgba(0,0,0,0.5);
+      color: #f2f2ec;
+      font-family: 'Courier New', Courier, monospace;
+      text-align: center;
+    }
+
+    .day2-panel h1 {
+      margin: 0;
+      color: #f8f2df;
+      letter-spacing: 0.22em;
+      font-size: 42px;
+    }
+
+    .day2-panel p {
+      margin: 12px 0 20px;
+      color: #c9bca4;
+      font-size: 18px;
+    }
+
+    .day2-preview {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .day2-window {
+      background: #1e2936;
+      border: 2px solid #3b4c5e;
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .day2-window::before {
+      content: '';
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      top: 12px;
+      bottom: 12px;
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.08), transparent 25%),
+                  linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      pointer-events: none;
+    }
+
+    .day2-dialogue {
+      background: #101820;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 14px;
+      min-height: 200px;
+      text-align: left;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #e7e7dd;
+      white-space: pre-wrap;
+    }
+
+    .day2-dialogue .speaker {
+      display: block;
+      margin-bottom: 10px;
+      color: #b8dab3;
+      font-weight: bold;
+    }
+
+    .day2-note {
+      margin-top: 14px;
+      color: #9aa5b1;
+      font-size: 13px;
     }
 
     #ui-overlay {
@@ -322,9 +587,19 @@
 <body>
   <div id="game-root">
     <div id="classroom" class="scene-layer">
+      <div class="wall-panel"></div>
+      <div class="chalkboard"></div>
+      <div class="window-pane window-left"></div>
+      <div class="window-pane window-right"></div>
       <div class="desk-backdrop"></div>
       <div class="desk desk-left"></div>
       <div class="desk desk-right"></div>
+      <div class="floor-strip"></div>
+    </div>
+    <div id="hallway" class="scene-layer">
+      <div class="hallway-wall"></div>
+      <div id="stall-door"></div>
+      <div id="toilet"></div>
     </div>
     <div id="door"></div>
     <div id="nene-sprite" class="sprite"></div>
@@ -335,6 +610,21 @@
       <div>
         <h1>DAY 1</h1>
         <p>THE GIRLS' ROOM RUMOR</p>
+      </div>
+    </div>
+
+    <div id="day2-screen">
+      <div class="day2-panel">
+        <h1>DAY 2</h1>
+        <p>THE MISAKI STAIRS</p>
+        <div class="day2-preview">
+          <div class="day2-window"></div>
+          <div class="day2-dialogue">
+            <span class="speaker">NENE:</span>
+            The rumor from Aoi... must be about this place.
+            <div class="day2-note">Press ENTER to continue into the next scene.</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -361,6 +651,8 @@
 
     const dayCard = document.getElementById('day-card');
     const classroom = document.getElementById('classroom');
+    const hallway = document.getElementById('hallway');
+    const day2Screen = document.getElementById('day2-screen');
     const uiOverlay = document.getElementById('ui-overlay');
     const speakerEl = document.getElementById('dialogue-speaker');
     const textEl = document.getElementById('dialogue-text');
@@ -368,6 +660,7 @@
     const player = document.getElementById('player-sprite');
     const doorEl = document.getElementById('door');
     let doorReached = false;
+    let currentScene = 'classroom';
 
     const playerSpeed = 160; // pixels per second
     const keys = { ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false };
@@ -416,12 +709,37 @@
     function transitionToHallway() {
       uiOverlay.style.display = 'none';
       hint.textContent = '';
-      dayCard.querySelector('h1').textContent = 'HALLWAY';
-      dayCard.querySelector('p').textContent = 'Nene steps through the door and moves on to the next part of her story.';
+      dayCard.querySelector('h1').textContent = 'SCENE 2: TOILET SUMMONING';
+      dayCard.querySelector('p').textContent = 'Nene leaves the classroom and enters a darker hallway leading to the girls\' bathroom.';
       dayCard.classList.remove('hidden');
+      classroom.classList.remove('visible');
+      hallway.classList.add('visible');
+      currentScene = 'hallway';
+      playerCanMove = false;
+      doorReached = false;
       setTimeout(() => {
         dayCard.classList.add('hidden');
+        showDay2Screen();
       }, 2200);
+    }
+
+    function showDay2Screen() {
+      day2Screen.classList.add('visible');
+      currentScene = 'day2';
+      playerCanMove = false;
+      doorEl.style.display = 'none';
+      hint.textContent = 'Press ENTER to continue.';
+    }
+
+    function hideDay2Screen() {
+      day2Screen.classList.remove('visible');
+      currentScene = 'hallway';
+      doorEl.style.display = 'none';
+      dayCard.classList.add('hidden');
+      player.style.left = '140px';
+      player.style.top = '330px';
+      playerCanMove = true;
+      hint.textContent = 'Use arrow keys to explore the hallway.';
     }
 
     function clamp(value, min, max) {
@@ -461,7 +779,7 @@
     }
 
     function checkDoorCollision() {
-      if (doorReached || !playerCanMove) return;
+      if (doorReached || !playerCanMove || currentScene !== 'classroom') return;
 
       const playerRect = player.getBoundingClientRect();
       const doorRect = doorEl.getBoundingClientRect();
@@ -482,14 +800,22 @@
     }
 
     window.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' && uiOverlay.style.display === 'block') {
-        if (doorReached) {
-          transitionToHallway();
-        } else {
-          showNextDialogueLine();
+      if (event.key === 'Enter') {
+        if (currentScene === 'day2' && day2Screen.classList.contains('visible')) {
+          hideDay2Screen();
+          event.preventDefault();
+          return;
         }
-        event.preventDefault();
-        return;
+
+        if (event.key === 'Enter' && uiOverlay.style.display === 'block') {
+          if (doorReached) {
+            transitionToHallway();
+          } else {
+            showNextDialogueLine();
+          }
+          event.preventDefault();
+          return;
+        }
       }
 
       if (event.key in keys) {
