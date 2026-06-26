@@ -330,17 +330,29 @@
       overflow: visible;
     }
 
+    .scene-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      pointer-events: none;
+      z-index: 0;
+    }
+
     .sprite-image {
       width: 220px;
       height: 368px;
       image-rendering: pixelated;
       position: absolute;
-      background-repeat: no-repeat;
-      background-position: center bottom;
-      background-size: contain;
+      object-fit: contain;
+      object-position: center bottom;
       border: 1px solid rgba(255,255,255,0.08);
-      background-image: url('./nene/nene-stand.jpeg');
+      display: block;
       z-index: 9;
+      pointer-events: none;
     }
 
     .sprite::before,
@@ -678,6 +690,7 @@
 <body>
   <div id="game-root">
     <div id="classroom" class="scene-layer">
+      <img class="scene-image" src="./backgrounds/CLASSROOM.jpeg" alt="Classroom" />
       <div class="wall-panel"></div>
       <div class="chalkboard"></div>
       <div class="window-pane window-left"></div>
@@ -688,12 +701,13 @@
       <div class="floor-strip"></div>
     </div>
     <div id="hallway" class="scene-layer">
+      <img class="scene-image" src="./backgrounds/HALLWAY.jpeg" alt="Hallway" />
       <div class="hallway-wall"></div>
       <div id="stall-door"></div>
       <div id="toilet"></div>
     </div>
     <div id="door"></div>
-    <div id="nene-sprite" class="sprite-image"></div>
+    <img id="nene-sprite" class="sprite-image" src="./nene/nene-stand.jpeg" alt="Nene" />
     <div id="aoi-sprite" class="sprite"></div>
     <div id="player-sprite" class="sprite"></div>
 
@@ -895,7 +909,8 @@
     function setNeneState(state) {
       if (neneState === state) return;
       neneState = state;
-      neneSprite.style.backgroundImage = `url('${neneStates[state]}')`;
+      neneSprite.src = neneStates[state];
+      neneSprite.alt = 'Nene';
     }
 
     function updateNeneState(delta) {
