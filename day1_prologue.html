@@ -55,7 +55,11 @@
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       grid-template-rows: repeat(8, 1fr);
-      background: linear-gradient(180deg, #243043 0%, #1a212d 60%, #0f1319 100%);
+      background-color: #243043;
+      background-image: linear-gradient(180deg, #243043 0%, #1a212d 60%, #0f1319 100%);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       overflow: hidden;
     }
 
@@ -83,7 +87,11 @@
     #hallway {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, #11161d 0%, #0c1015 55%, #07090c 100%);
+      background-color: #11161d;
+      background-image: linear-gradient(180deg, #11161d 0%, #0c1015 55%, #07090c 100%);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       z-index: 0;
       overflow: hidden;
     }
@@ -328,6 +336,7 @@
       background-size: contain;
       border: 1px solid rgba(255,255,255,0.08);
       background-image: url('nene/nene-stand.jpeg');
+      z-index: 9;
     }
 
     .sprite::before,
@@ -364,7 +373,7 @@
         8px 32px var(--shoe), 16px 32px var(--shoe), 24px 32px var(--shoe), 32px 32px var(--shoe), 40px 32px var(--shoe), 48px 32px var(--shoe);
     }
 
-    #nene-sprite { left: 210px; top: 230px; }
+    #nene-sprite { left: 210px; top: 230px; z-index: 9; }
     #aoi-sprite { --hair: #3f6a8e; --top: #5c8b76; --pants: #283243; left: 378px; top: 242px; }
     #player-sprite { --hair: #6b4f31; --top: #947766; --pants: #34353d; left: 182px; top: 362px; }
 
@@ -632,7 +641,7 @@
       text-align: center;
       opacity: 1;
       transition: opacity 0.6s ease;
-      z-index: 20;
+      z-index: 5;
     }
 
     #day-card.hidden { opacity: 0; pointer-events: none; }
@@ -743,6 +752,10 @@
 
     const playerSpeed = 160; // pixels per second
     const keys = { ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false };
+    const backgroundCandidates = {
+      classroom: ['bacgrounds/classroom-bg.png', 'bacgrounds/classroom-bg.jpg', 'bacgrounds/classroom-bg.jpeg', 'bacgrounds/classroom.png', 'bacgrounds/classroom.jpg', 'bacgrounds/classroom.jpeg'],
+      hallway: ['bacgrounds/hallway-bg.png', 'bacgrounds/hallway-bg.jpg', 'bacgrounds/hallway-bg.jpeg', 'bacgrounds/hallway.png', 'bacgrounds/hallway.jpg', 'bacgrounds/hallway.jpeg']
+    };
     const neneStates = {
       stand: 'nene/nene-stand.jpeg',
       walk1: 'nene/nene-walk1.jpeg',
@@ -835,6 +848,40 @@
 
     function clamp(value, min, max) {
       return Math.min(Math.max(value, min), max);
+    }
+
+    function applyBackgroundImage(element, candidates, fallbackGradient) {
+      const tryNext = (index) => {
+        if (index >= candidates.length) {
+          element.style.backgroundImage = fallbackGradient;
+          return;
+        }
+
+        const img = new Image();
+        img.onload = () => {
+          element.style.backgroundImage = `${fallbackGradient}, url('${candidates[index]}')`;
+          element.style.backgroundSize = 'cover';
+          element.style.backgroundPosition = 'center';
+          element.style.backgroundRepeat = 'no-repeat';
+        };
+        img.onerror = () => tryNext(index + 1);
+        img.src = candidates[index];
+      };
+
+      tryNext(0);
+    }
+
+    function loadSceneBackgrounds() {
+      applyBackgroundImage(
+        classroom,
+        backgroundCandidates.classroom,
+        'linear-gradient(180deg, #243043 0%, #1a212d 60%, #0f1319 100%)'
+      );
+      applyBackgroundImage(
+        hallway,
+        backgroundCandidates.hallway,
+        'linear-gradient(180deg, #11161d 0%, #0c1015 55%, #07090c 100%)'
+      );
     }
 
     function setNeneState(state) {
@@ -947,6 +994,8 @@
     });
 
     window.addEventListener('load', () => {
+      loadSceneBackgrounds();
+
       // Ensure the player starts with a valid position.
       player.style.left = '182px';
       player.style.top = '362px';
