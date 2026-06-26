@@ -56,7 +56,9 @@
       grid-template-columns: repeat(12, 1fr);
       grid-template-rows: repeat(8, 1fr);
       background-color: #243043;
-      background-image: linear-gradient(180deg, #243043 0%, #1a212d 60%, #0f1319 100%);
+      background-image:
+        linear-gradient(180deg, #243043 0%, #1a212d 60%, #0f1319 100%),
+        url('backgrounds/CLASSROOM.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -88,7 +90,9 @@
       position: absolute;
       inset: 0;
       background-color: #11161d;
-      background-image: linear-gradient(180deg, #11161d 0%, #0c1015 55%, #07090c 100%);
+      background-image:
+        linear-gradient(180deg, #11161d 0%, #0c1015 55%, #07090c 100%),
+        url('backgrounds/HALLWAY.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -335,7 +339,7 @@
       background-position: center bottom;
       background-size: contain;
       border: 1px solid rgba(255,255,255,0.08);
-      background-image: url('nene/nene-stand.jpeg');
+      background-image: url('./nene/nene-stand.jpeg');
       z-index: 9;
     }
 
@@ -753,8 +757,14 @@
     const playerSpeed = 160; // pixels per second
     const keys = { ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false };
     const backgroundCandidates = {
-      classroom: ['bacgrounds/classroom-bg.png', 'bacgrounds/classroom-bg.jpg', 'bacgrounds/classroom-bg.jpeg', 'bacgrounds/classroom.png', 'bacgrounds/classroom.jpg', 'bacgrounds/classroom.jpeg'],
-      hallway: ['bacgrounds/hallway-bg.png', 'bacgrounds/hallway-bg.jpg', 'bacgrounds/hallway-bg.jpeg', 'bacgrounds/hallway.png', 'bacgrounds/hallway.jpg', 'bacgrounds/hallway.jpeg']
+      classroom: [
+        'backgrounds/CLASSROOM.jpeg',
+     
+      ],
+      hallway: [
+        'backgrounds/HALLWAY.jpeg',
+        
+      ]
     };
     const neneStates = {
       stand: 'nene/nene-stand.jpeg',
