@@ -933,18 +933,20 @@
     }
 
     function updateNeneState(delta) {
-      if (doorReached || currentScene !== 'classroom') return;
+      if (doorReached) return;
 
       const moving = keys.ArrowUp || keys.ArrowDown || keys.ArrowLeft || keys.ArrowRight;
       if (!playerCanMove || !moving) {
         setNeneState('stand');
         walkTimer = 0;
+        neneSprite.classList.remove('walking');
         return;
       }
 
+      neneSprite.classList.add('walking');
       walkTimer += delta;
-      if (walkTimer >= 0.2) {
-        walkTimer -= 0.2;
+      if (walkTimer >= 0.18) {
+        walkTimer -= 0.18;
         walkFrame = (walkFrame + 1) % 2;
         setNeneState(walkFrame === 0 ? 'walk1' : 'walk2');
       }
@@ -973,6 +975,12 @@
 
       neneSprite.style.left = `${nextLeft}px`;
       neneSprite.style.top = `${nextTop}px`;
+      // orient sprite left/right based on horizontal movement
+      if (dx > 0) {
+        neneSprite.style.transform = 'scaleX(1)';
+      } else if (dx < 0) {
+        neneSprite.style.transform = 'scaleX(-1)';
+      }
     }
 
     function checkDoorCollision() {
