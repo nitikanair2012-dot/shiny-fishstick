@@ -716,18 +716,30 @@
       background: rgba(16,16,24,0.98);
       border: 2px solid #2c2c2c;
       width: 84%;
-      max-width: 720px;
-      max-height: 85%;
+      max-width: 820px;
+      max-height: 88%;
       border-radius: 10px;
       padding: 18px;
       position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
     }
 
-    .map-image { width: 100%; height: 60vh; object-fit: contain; display: block; }
+    .map-image {
+      width: 100%;
+      height: auto;
+      max-height: calc(70vh - 80px);
+      object-fit: contain;
+      display: block;
+      border-radius: 12px;
+      background: #111;
+    }
 
     #map-content {
       display: grid;
       gap: 16px;
+      overflow: hidden;
     }
 
     #map-grid {
@@ -889,27 +901,7 @@
         <button id="close-map-btn" style="position:absolute;right:12px;top:10px;background:transparent;border:none;color:#cfcfcf;cursor:pointer;font-size:14px;" onclick="toggleMap()">✕ Close</button>
         <h3 style="color:var(--text-color);margin:6px 0 12px;font-size:18px;">Kamome Academy Floor Map</h3>
         <div id="map-content">
-          <div id="map-grid">
-            <div class="map-building">
-              <div class="map-building-title">New Building<br><span>High School</span></div>
-              <div class="map-room">Rooftop</div>
-              <div class="map-room">Floor 3 — Student Council, Storage, Classrooms</div>
-              <div class="map-room">Floor 2 — Walkway, Classroom, Home Economics</div>
-              <div class="map-room">Floor 1 — Main Entrance, Gym, Office</div>
-            </div>
-            <div class="map-connector">
-              <div class="map-link">Connecting Steps</div>
-              <div class="map-link">Garden</div>
-              <div class="map-link">Bridge Between Buildings</div>
-            </div>
-            <div class="map-building">
-              <div class="map-building-title">Old Building<br><span>Middle School</span></div>
-              <div class="map-room">Rooftop</div>
-              <div class="map-room">Floor 3 — Music, Storage, Gymnasium</div>
-              <div class="map-room">Floor 2 — Walkway, Shoe Locker, Cool Classes</div>
-              <div class="map-room">Floor 1 — Garden Supplies, Photography, Stairs</div>
-            </div>
-          </div>
+          <img class="map-image" src="./backgrounds/map.png" alt="Hand-drawn floor map" />
           <div id="map-legend">
             <div class="legend-row"><span class="legend-chip legend-player"></span> Current location: Classroom</div>
             <div class="legend-row"><span class="legend-chip legend-stairs"></span> Misaki Stairs</div>
