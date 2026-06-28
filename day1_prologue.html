@@ -89,27 +89,15 @@
     #hallway {
       position: absolute;
       inset: 0;
-      background-color: #11161d;
+      background-color: #1b2430;
       background-image:
-        linear-gradient(180deg, #11161d 0%, #0c1015 55%, #07090c 100%),
+        linear-gradient(180deg, #1b2430 0%, #11161d 40%, #0f1216 80%, #090c10 100%),
         url('./backgrounds/hallway.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       z-index: 0;
       overflow: hidden;
-    }
-
-    #hallway::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 220px;
-      height: 160px;
-      background: linear-gradient(180deg, #181f29 0%, #11161d 100%);
-      border-top: 3px solid rgba(255,255,255,0.08);
-      box-shadow: inset 0 16px 0 rgba(255,255,255,0.02);
     }
 
     #hallway::after {
@@ -389,7 +377,7 @@
         8px 32px var(--shoe), 16px 32px var(--shoe), 24px 32px var(--shoe), 32px 32px var(--shoe), 40px 32px var(--shoe), 48px 32px var(--shoe);
     }
 
-    #nene-sprite { left: 210px; top: 230px; z-index: 9; }
+    #nene-sprite { left: 210px; top: 230px; z-index: 9; opacity: 0; transition: opacity 0.4s ease; }
     #aoi-sprite { --hair: #3f6a8e; --top: #5c8b76; --pants: #283243; left: 378px; top: 242px; }
     #player-sprite { --hair: #6b4f31; --top: #947766; --pants: #34353d; left: 182px; top: 362px; }
 
@@ -954,6 +942,7 @@
 
     function fadeOutDayCard() {
       dayCard.classList.add('hidden');
+      neneSprite.style.opacity = '1';
     }
 
     function fadeInScene() {
@@ -1164,10 +1153,10 @@
       neneSprite.style.left = '210px';
       neneSprite.style.top = '230px';
       setNeneState('stand');
+      fadeInScene();
 
       setTimeout(() => {
         fadeOutDayCard();
-        fadeInScene();
       }, 3000);
 
       setTimeout(() => {
