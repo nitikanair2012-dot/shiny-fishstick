@@ -377,7 +377,7 @@
         8px 32px var(--shoe), 16px 32px var(--shoe), 24px 32px var(--shoe), 32px 32px var(--shoe), 40px 32px var(--shoe), 48px 32px var(--shoe);
     }
 
-    #nene-sprite { left: 210px; top: 230px; z-index: 9; opacity: 0; transition: opacity 0.4s ease; }
+    #nene-sprite { left: 210px; top: 230px; z-index: 2; opacity: 0; transition: opacity 0.4s ease; }
     #aoi-sprite { --hair: #3f6a8e; --top: #5c8b76; --pants: #283243; left: 378px; top: 242px; }
     #player-sprite { --hair: #6b4f31; --top: #947766; --pants: #34353d; left: 182px; top: 362px; }
 
@@ -703,8 +703,8 @@
     #map-modal {
       background: rgba(16,16,24,0.98);
       border: 2px solid #2c2c2c;
-      width: 84%;
-      max-width: 820px;
+      width: 88%;
+      max-width: 900px;
       max-height: 88%;
       border-radius: 10px;
       padding: 18px;
@@ -714,20 +714,63 @@
       grid-template-rows: auto 1fr auto;
     }
 
-    .map-image {
-      width: 100%;
-      height: auto;
-      max-height: calc(70vh - 80px);
-      object-fit: contain;
-      display: block;
-      border-radius: 12px;
-      background: #111;
-    }
-
     #map-content {
       display: grid;
       gap: 16px;
       overflow: hidden;
+    }
+
+    #map-scroll {
+      background: rgba(8, 10, 14, 0.95);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 12px;
+      max-height: calc(70vh - 80px);
+      overflow: auto;
+    }
+
+    #map-layer {
+      position: relative;
+      width: max-content;
+      min-width: 100%;
+    }
+
+    .map-image {
+      display: block;
+      width: auto;
+      height: auto;
+      max-width: none;
+      max-height: none;
+      min-width: 100%;
+      border-radius: 10px;
+      background: #111;
+    }
+
+    #map-marker {
+      position: absolute;
+      left: 32%;
+      top: 64%;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2px solid rgba(0,0,0,0.3);
+      box-shadow: 0 0 10px rgba(255,255,255,0.7);
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+
+    #map-location {
+      margin-top: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: #e8e8e8;
+      font-size: 13px;
     }
 
     #map-grid {
@@ -889,12 +932,18 @@
         <button id="close-map-btn" style="position:absolute;right:12px;top:10px;background:transparent;border:none;color:#cfcfcf;cursor:pointer;font-size:14px;" onclick="toggleMap()">✕ Close</button>
         <h3 style="color:var(--text-color);margin:6px 0 12px;font-size:18px;">Kamome Academy Floor Map</h3>
         <div id="map-content">
-          <img class="map-image" src="./backgrounds/map.png" alt="Hand-drawn floor map" />
+          <div id="map-scroll">
+            <div id="map-layer">
+              <img class="map-image" src="./backgrounds/map.png" alt="Hand-drawn floor map" />
+              <div id="map-marker"></div>
+            </div>
+          </div>
           <div id="map-legend">
-            <div class="legend-row"><span class="legend-chip legend-player"></span> Current location: Classroom</div>
+            <div class="legend-row"><span class="legend-chip legend-player"></span> Nene's current location</div>
             <div class="legend-row"><span class="legend-chip legend-stairs"></span> Misaki Stairs</div>
             <div class="legend-row"><span class="legend-chip legend-closed"></span> Undiscovered areas</div>
           </div>
+          <div id="map-location" class="map-label">Current: Class 1A</div>
           <div id="map-stairs" class="map-label">Misaki Stairs discovered</div>
         </div>
       </div>
@@ -1029,11 +1078,29 @@
       hasDiscoveredMisakiStairs = true;
     }
 
+    function getMapPosition(scene) {
+      if (scene === 'hallway' || scene === 'day2') {
+        return { left: '56%', top: '42%', label: 'Walkway' };
+      }
+      return { left: '34%', top: '66%', label: 'Class 1A' };
+    }
+
+    function updateMapMarker() {
+      const marker = document.getElementById('map-marker');
+      const location = document.getElementById('map-location');
+      if (!marker || !location) return;
+      const position = getMapPosition(currentScene);
+      marker.style.left = position.left;
+      marker.style.top = position.top;
+      location.textContent = `Current: ${position.label}`;
+    }
+
     function toggleMap() {
       mapOpen = !mapOpen;
       document.getElementById('map-overlay').classList.toggle('open', mapOpen);
       const stair = document.getElementById('map-stairs');
       if (stair) stair.style.display = hasDiscoveredMisakiStairs ? 'block' : 'none';
+      if (mapOpen) updateMapMarker();
     }
 
     function clamp(value, min, max) {
