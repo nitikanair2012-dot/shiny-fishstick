@@ -58,7 +58,7 @@
       background-color: #243043;
       background-image:
         linear-gradient(180deg, #243043 0%, #1a212d 60%, #0f1319 100%),
-        url('./backgrounds/CLASSROOM.jpeg');
+        url('./backgrounds/classroom.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -92,7 +92,7 @@
       background-color: #11161d;
       background-image:
         linear-gradient(180deg, #11161d 0%, #0c1015 55%, #07090c 100%),
-        url('./backgrounds/HALLWAY.jpeg');
+        url('./backgrounds/hallway.jpeg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -725,13 +725,115 @@
 
     .map-image { width: 100%; height: 60vh; object-fit: contain; display: block; }
 
-    .map-label { position: absolute; bottom: 12px; left: 12px; background: rgba(0,0,0,0.6); padding: 6px 10px; font-size: 12px; border-radius: 6px; color: var(--accent); display: none; }
+    #map-content {
+      display: grid;
+      gap: 16px;
+    }
+
+    #map-grid {
+      display: grid;
+      grid-template-columns: 1fr 0.7fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .map-building,
+    .map-connector {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 14px;
+      color: #e3e3e3;
+      min-height: 320px;
+    }
+
+    .map-building-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #f5e8c0;
+      line-height: 1.3;
+    }
+
+    .map-building-title span {
+      display: block;
+      font-size: 11px;
+      color: #b3b8c7;
+      margin-top: 4px;
+    }
+
+    .map-room {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .map-room:last-child {
+      margin-bottom: 0;
+    }
+
+    .map-connector {
+      display: grid;
+      align-content: start;
+      gap: 10px;
+      min-height: 320px;
+    }
+
+    .map-link {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 14px 12px;
+      color: #d9dfe9;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    #map-legend {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+      color: #b8c1d1;
+      font-size: 12px;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-chip {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
+    .legend-player { background: #7c9dff; }
+    .legend-stairs { background: #f1c26d; }
+    .legend-closed { background: rgba(255,255,255,0.12); }
+
+    .map-label {
+      background: rgba(0,0,0,0.6);
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--accent);
+      display: none;
+      margin-top: 12px;
+      width: fit-content;
+    }
   </style>
 </head>
 <body>
   <div id="game-root">
     <div id="classroom" class="scene-layer">
-      <img class="scene-image" src="./backgrounds/CLASSROOM.jpeg" alt="Classroom" />
+      <img class="scene-image" src="./backgrounds/classroom.jpeg" alt="Classroom" />
       <div class="wall-panel"></div>
       <div class="chalkboard"></div>
       <div class="window-pane window-left"></div>
@@ -742,7 +844,7 @@
       <div class="floor-strip"></div>
     </div>
     <div id="hallway" class="scene-layer">
-      <img class="scene-image" src="./backgrounds/HALLWAY.jpeg" alt="Hallway" />
+      <img class="scene-image" src="./backgrounds/hallway.jpeg" alt="Hallway" />
       <div class="hallway-wall"></div>
       <div id="stall-door"></div>
       <div id="toilet"></div>
@@ -786,9 +888,34 @@
       <div id="map-modal">
         <button id="close-map-btn" style="position:absolute;right:12px;top:10px;background:transparent;border:none;color:#cfcfcf;cursor:pointer;font-size:14px;" onclick="toggleMap()">✕ Close</button>
         <h3 style="color:var(--text-color);margin:6px 0 12px;font-size:18px;">Kamome Academy Floor Map</h3>
-        <div style="position:relative;">
-          <img class="map-image" src="./backgrounds/FLOORMAP.jpeg" alt="Floor map" />
-          <div id="stair-label" class="map-label">Stairs (High School)</div>
+        <div id="map-content">
+          <div id="map-grid">
+            <div class="map-building">
+              <div class="map-building-title">New Building<br><span>High School</span></div>
+              <div class="map-room">Rooftop</div>
+              <div class="map-room">Floor 3 — Student Council, Storage, Classrooms</div>
+              <div class="map-room">Floor 2 — Walkway, Classroom, Home Economics</div>
+              <div class="map-room">Floor 1 — Main Entrance, Gym, Office</div>
+            </div>
+            <div class="map-connector">
+              <div class="map-link">Connecting Steps</div>
+              <div class="map-link">Garden</div>
+              <div class="map-link">Bridge Between Buildings</div>
+            </div>
+            <div class="map-building">
+              <div class="map-building-title">Old Building<br><span>Middle School</span></div>
+              <div class="map-room">Rooftop</div>
+              <div class="map-room">Floor 3 — Music, Storage, Gymnasium</div>
+              <div class="map-room">Floor 2 — Walkway, Shoe Locker, Cool Classes</div>
+              <div class="map-room">Floor 1 — Garden Supplies, Photography, Stairs</div>
+            </div>
+          </div>
+          <div id="map-legend">
+            <div class="legend-row"><span class="legend-chip legend-player"></span> Current location: Classroom</div>
+            <div class="legend-row"><span class="legend-chip legend-stairs"></span> Misaki Stairs</div>
+            <div class="legend-row"><span class="legend-chip legend-closed"></span> Undiscovered areas</div>
+          </div>
+          <div id="map-stairs" class="map-label">Misaki Stairs discovered</div>
         </div>
       </div>
     </div>
@@ -924,7 +1051,7 @@
     function toggleMap() {
       mapOpen = !mapOpen;
       document.getElementById('map-overlay').classList.toggle('open', mapOpen);
-      const stair = document.getElementById('stair-label');
+      const stair = document.getElementById('map-stairs');
       if (stair) stair.style.display = hasDiscoveredMisakiStairs ? 'block' : 'none';
     }
 
